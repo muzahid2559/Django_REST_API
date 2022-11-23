@@ -3,7 +3,7 @@ from.models import Status
 
 # Register your models here.
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ['user','content','image']
+    list_display = ['id', 'user','content','image']
     
     class Meta:
         model = Status
