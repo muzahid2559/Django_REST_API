@@ -6,42 +6,29 @@ from .serializers import StatusSerializer # serializer based on status model
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 
 # Create your views here.
-class StatusAPIView(APIView):
 
-    def get(self, request, format=None):
-        status_list = Status.objects.all()
-        status_serializer = StatusSerializer(status_list, many=True)
-        return Response(status_serializer.data)
-
-class StatusListAPIView(generics.ListAPIView):
+# status/ -> List, Create => GET, POST
+class StatusListCreateView(mixins.CreateModelMixin, generics.ListAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
 
-class StatusCreateAPIView(generics.CreateAPIView):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
-class StatusDetailAPIView(generics.RetrieveAPIView):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
-    #lookup_field = 'id'
-
-
-    # def get_objectt(self, *args, **kwargs):
-    #     kwargs = self.kwargs
-    #     kw_id = kwargs.get('id')
-    #     return Status.objects.get(id=kw_id)
-
-class StatusUpdateAPIView(generics.UpdateAPIView):
+# status/<id> Details, Delete, Update => GET, DELETE, PUT/PATCH
+class StatusDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     lookup_field = 'id'
 
-class StatusDeleteAPIView(generics.DestroyAPIView):
-    queryset = Status.objects.all()
-    serializer_class = StatusSerializer
-    lookup_field = 'id'
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+

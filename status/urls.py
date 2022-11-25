@@ -3,13 +3,12 @@ from status import views
 
 app_name = 'status'
 
+# status/ -> List, Create => GET, POST
+# status/<id> Details, Delete, Update => GET, DELETE, PUT/PATCH
+
 urlpatterns = [
-    path('status/', views.StatusAPIView.as_view(), name='api'),
-    path('status/list/', views.StatusListAPIView.as_view(), name='list_api'),
-    path('status/create/', views.StatusCreateAPIView.as_view()),
-    path('status/detail/<pk>/', views.StatusDetailAPIView.as_view()),
-    path('status/update/<id>/', views.StatusUpdateAPIView.as_view()),
-    path('status/delete/<id>/', views.StatusDeleteAPIView.as_view()),
-    
+    path('status/', views.StatusListCreateView.as_view()),
+    path('status/<id>/', views.StatusDetailAPIView.as_view()),
+
 
 ]
