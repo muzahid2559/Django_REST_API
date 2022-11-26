@@ -8,7 +8,7 @@ app_name = 'status'
 
 urlpatterns = [
     path('status/', views.StatusListCreateView.as_view()),
-    path('status/<id>/', views.StatusDetailAPIView.as_view()),
+    path('status/<id>/', views.StatusDetailUpdateDeleteAPIView.as_view()),
 
 
 ]
